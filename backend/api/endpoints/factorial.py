@@ -3,8 +3,8 @@ from fastapi.params import Depends
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 from .util import verify_api_key, redis_client
+from api.database import init_db, SessionLocal, RequestLog
 import loguru
-
 
 # Requests
 class FactRequest(BaseModel):

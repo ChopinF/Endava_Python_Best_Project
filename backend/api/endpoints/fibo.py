@@ -3,7 +3,9 @@ from fastapi.params import Depends
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 from .util import verify_api_key, redis_client
+from api.database import init_db, SessionLocal, RequestLog
 import loguru
+
 
 
 # Requests
@@ -27,12 +29,10 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-
 # helper functions
 @router.get("/")
 async def get_root_fibo():
     return "good fibo"
-
 
 # to empty all the cache
 @router.delete("/")

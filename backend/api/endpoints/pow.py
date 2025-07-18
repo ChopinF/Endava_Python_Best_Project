@@ -4,10 +4,10 @@ from fastapi import APIRouter
 from pydantic import BaseModel, Field
 from fastapi import HTTPException
 from .util import verify_api_key, redis_client
+from api.database import init_db, SessionLocal, RequestLog
 import loguru
 
 supported_types = ["int", "float", "complex"]
-
 
 # Requests
 class PowRequest(BaseModel):
