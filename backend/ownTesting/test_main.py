@@ -68,3 +68,49 @@ def test_pow_complex(a, b, expected):
     assert data["answer"] == expected
     assert data["api_key"] == "key"
     assert isinstance(data["cached"], bool)
+
+
+@pytest.mark.parametrize(
+    "number, expected",
+    [
+        (0, 1),
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 5),
+        (5, 8),
+        (6, 13),
+        (7, 21),
+        (8, 34),
+    ],
+)
+def test_fibo_retrieve(number, expected):
+    response = requests.post(
+        f"{BASE_URL}/fibo/retrieve", headers=HEADERS, json={"number": number}
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["answer"] == expected
+    assert data["api_key"] == "key"
+    assert isinstance(data["cached"], bool)
+
+
+@pytest.mark.parametrize(
+    "number, expected",
+    [
+        (1, 1),
+        (2, 2),
+        (3, 6),
+        (4, 24),
+        (5, 120),
+        (6, 720),
+    ],
+)
+def test_fact_retrieve(number, expected):
+    response = requests.post(
+        f"{BASE_URL}/fact/retrieve", headers=HEADERS, json={"number": number}
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["answer"] == expected
+    assert data["api_key"] == "key"
