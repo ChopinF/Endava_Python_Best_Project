@@ -2,6 +2,10 @@
 
 set -e # exit immediately if any command fails
 
+echo "[0/5] Deleting first those images"
+# sudo docker stop redis fastapi-app
+# sudo docker rm fastapi-app redis
+
 echo "[1/5] Creating Docker network (if not exists)..."
 docker network inspect app-net >/dev/null 2>&1 || docker network create app-net
 

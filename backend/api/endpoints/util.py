@@ -15,5 +15,5 @@ async def verify_api_key(api_key: str = Security(api_key_header)):
     return api_key
 
 
-# redis_client = aioredis.Redis(host="localhost", port=6379, db=0) # on localhost
+# redis_client = aioredis.Redis(host="localhost", port=6379, db=0)  # on localhost
 redis_client = aioredis.Redis(host="redis", port=6379, db=0)  # for docker container

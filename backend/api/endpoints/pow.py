@@ -101,7 +101,9 @@ async def pow_operation(
         elif operand_type == "float":
             result = float(result)
         elif operand_type == "complex":
-            result = complex(result)
+            a = complex(payload.a if "j" in str(payload.a) else f"{payload.a}+0j")
+            b = complex(payload.b if "j" in str(payload.b) else f"{payload.b}+0j")
+            result = a**b
 
         loguru.logger.info(
             f"Retrieved from redis cache some result for pow operation: {result}"
@@ -131,7 +133,7 @@ async def pow_operation(
         raise HTTPException(status_code=400, detail=f"Computation error: {str(e)}")
 
     loguru.logger.info(f"Set to redis cache some result for pow operation: {result}")
-    await redis_client.set(key, result)  # type: ignore
+    await redis_client.set(key, str(result))  # type: ignore
 
     db.add(
         Computation(
