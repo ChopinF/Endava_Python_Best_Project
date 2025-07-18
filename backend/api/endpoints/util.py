@@ -1,3 +1,4 @@
+# endpoints/util.py
 from fastapi import HTTPException
 from fastapi.security.api_key import APIKeyHeader
 from fastapi import Security
@@ -14,9 +15,15 @@ async def verify_api_key(api_key: str = Security(api_key_header)):
         raise HTTPException(status_code=403, detail="Could not validate API KEY")
     return api_key
 
+
 redis_client = redis.Redis(
     host="localhost",
     port=6379,
     db=0,
     decode_responses=True
 )
+=======
+
+# redis_client = aioredis.Redis(host="localhost", port=6379, db=0) # on localhost
+redis_client = aioredis.Redis(host="redis", port=6379, db=0)  # for docker container
+
