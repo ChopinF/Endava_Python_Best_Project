@@ -91,8 +91,8 @@ test_cases = {
 }
 
 # Write to JSON file
-json_output_path = Path("testing\manual_test_cases.json")
-with open(json_output_path, "w") as json_file:
+json_output_path = Path(r"testing\manual_test_cases.json")
+with open(json_output_path, "w", encoding="utf-8") as json_file:
     json.dump(test_cases, json_file, indent=4)
 
 # Confirm saved

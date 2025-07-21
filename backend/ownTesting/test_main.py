@@ -24,7 +24,7 @@ HEADERS = {"name": "key"}
 )
 def test_pow_float(a, b, expected):
     response = requests.post(
-        f"{BASE_URL}/pow/float", headers=HEADERS, json={"a": a, "b": b}
+        f"{BASE_URL}/pow/float", headers=HEADERS, json={"a": a, "b": b}, timeout=5
     )
     assert response.status_code == 200
     data = response.json()
@@ -43,7 +43,7 @@ def test_pow_float(a, b, expected):
 )
 def test_pow_int(a, b, expected):
     response = requests.post(
-        f"{BASE_URL}/pow/int", headers=HEADERS, json={"a": a, "b": b}
+        f"{BASE_URL}/pow/int", headers=HEADERS, json={"a": a, "b": b}, timeout=5
     )
     assert response.status_code == 200
     data = response.json()
@@ -62,7 +62,7 @@ def test_pow_int(a, b, expected):
 )
 def test_pow_complex(a, b, expected):
     response = requests.post(
-        f"{BASE_URL}/pow/complex", headers=HEADERS, json={"a": a, "b": b}
+        f"{BASE_URL}/pow/complex", headers=HEADERS, json={"a": a, "b": b}, timeout=5
     )
     assert response.status_code == 200
     data = response.json()
@@ -72,13 +72,13 @@ def test_pow_complex(a, b, expected):
 
 
 def test_pow_root():
-    response = requests.get(f"{BASE_URL}/pow/")
+    response = requests.get(f"{BASE_URL}/pow/", timeout=5)
     assert response.status_code == 200
     assert "int" in response.json()
 
 
 def test_pow_delete_cache():
-    response = requests.delete(f"{BASE_URL}/pow/", headers=HEADERS)
+    response = requests.delete(f"{BASE_URL}/pow/", headers=HEADERS, timeout=5)
     assert response.status_code == 200
     assert isinstance(response.json(), list)
     
@@ -101,7 +101,7 @@ def test_pow_delete_cache():
 )
 def test_fibo_retrieve(number, expected):
     response = requests.post(
-        f"{BASE_URL}/fibo/retrieve", headers=HEADERS, json={"number": number}
+        f"{BASE_URL}/fibo/retrieve", headers=HEADERS, json={"number": number}, timeout=5
     )
     assert response.status_code == 200
     data = response.json()
@@ -122,13 +122,13 @@ def test_fibo_retrieve(number, expected):
 #     ],
 # )
 def test_fibo_root():
-    response = requests.get(f"{BASE_URL}/fibo/")
+    response = requests.get(f"{BASE_URL}/fibo/", timeout=5)
     assert response.status_code == 200
     assert response.text.strip('"') == "good fibo"
 
 
 def test_fibo_delete_cache():
-    response = requests.delete(f"{BASE_URL}/fibo/", headers=HEADERS)
+    response = requests.delete(f"{BASE_URL}/fibo/", headers=HEADERS, timeout=5)
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
@@ -136,7 +136,7 @@ def test_fibo_delete_cache():
 def test_fact_retrieve(number, expected):
     # First call
     response = requests.post(
-        f"{BASE_URL}/fact/retrieve", headers=HEADERS, json={"number": number}
+        f"{BASE_URL}/fact/retrieve", headers=HEADERS, json={"number": number}, timeout=5
     )
     assert response.status_code == 200
     data = response.json()
@@ -146,7 +146,7 @@ def test_fact_retrieve(number, expected):
 
     # Cached call
     response_cached = requests.post(
-        f"{BASE_URL}/fact/retrieve", headers=HEADERS, json={"number": number}
+        f"{BASE_URL}/fact/retrieve", headers=HEADERS, json={"number": number}, timeout=5
     )
     assert response_cached.status_code == 200
     data_cached = response_cached.json()
@@ -155,12 +155,12 @@ def test_fact_retrieve(number, expected):
 
 
 def test_fact_root():
-    response = requests.get(f"{BASE_URL}/fact/")
+    response = requests.get(f"{BASE_URL}/fact/", timeout=5)
     assert response.status_code == 200
     assert response.text.strip('"') == "good fact"
 
 
 def test_fact_delete_cache():
-    response = requests.delete(f"{BASE_URL}/fact/", headers=HEADERS)
+    response = requests.delete(f"{BASE_URL}/fact/", headers=HEADERS, timeout=5)
     assert response.status_code == 200
     assert isinstance(response.json(), list)

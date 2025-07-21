@@ -3,7 +3,7 @@ import uuid
 from pathlib import Path
 
 # Load test cases
-with open("testing\manual_test_cases.json") as f:
+with open(r"testing\manual_test_cases.json", encoding="utf-8") as f:
     test_cases = json.load(f)
 
 # Helper to create Postman request item
