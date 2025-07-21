@@ -3,7 +3,7 @@ import uuid
 from pathlib import Path
 
 # Load test cases
-with open(r"testing\manual_test_cases.json", encoding="utf-8") as f:
+with open(r"manual_test_cases.json", encoding="utf-8") as f:
     test_cases = json.load(f)
 
 # Helper to create Postman request item
@@ -61,7 +61,7 @@ for group, cases in test_cases.items():
     collection["item"].append(folder)
 
 # Save to file
-output_path = Path("testing\postman_collection_microservice.json")
+output_path = Path("postman_collection_microservice.json")
 with open(output_path, "w") as f:
     json.dump(collection, f, indent=2)
 

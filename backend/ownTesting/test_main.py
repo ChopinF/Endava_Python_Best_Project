@@ -1,7 +1,5 @@
 import pytest
 import requests
-from fastapi import HTTPException
-from api.endpoints.util import verify_api_key, API_KEY
 
 # -------------------- /pow --------------------
 def test_add():
@@ -177,15 +175,3 @@ def test_fact_delete_cache():
     assert response.status_code == 200
     assert isinstance(response.json(), list)
 
-
-@pytest.mark.asyncio
-async def test_verify_api_key_valid():
-    result = await verify_api_key(API_KEY)
-    assert result == API_KEY
-
-@pytest.mark.asyncio
-async def test_verify_api_key_invalid():
-    with pytest.raises(HTTPException) as exc_info:
-        await verify_api_key("wrong_key")
-    assert exc_info.value.status_code == 403
-    assert "Could not validate API KEY" in exc_info.value.detail

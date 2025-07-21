@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "FastAPI Math Microservice",
-    "_postman_id": "4040bca5-0171-4bcf-91b3-1d7cf3a9299d",
+    "_postman_id": "b8c96d57-9a15-4582-8d22-2906b5f0e1a6",
     "description": "Postman collection generated for FastAPI factorial, fibo, and pow endpoints.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
@@ -89,6 +89,34 @@
             "body": {
               "mode": "raw",
               "raw": "{\n  \"a\": \"1+1j\",\n  \"b\": \"2\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POW-04",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/pow/int",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pow",
+                "int"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"a\": \"a\",\n  \"b\": \"b\"\n}"
             }
           },
           "response": []
@@ -350,6 +378,164 @@
             "body": {
               "mode": "raw",
               "raw": "{\n  \"a\": 2,\n  \"b\": 2\n}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EXTENDED_FACT_TESTS",
+      "item": [
+        {
+          "name": "FACT-ROOT",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fact/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fact"
+              ]
+            },
+            "body": null
+          },
+          "response": []
+        },
+        {
+          "name": "FACT-DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fact/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fact"
+              ]
+            },
+            "body": null
+          },
+          "response": []
+        },
+        {
+          "name": "FACT-POPULATE-01",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fact/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fact"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": 5\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "FACT-RETRIEVE-VALID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fact/retrieve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fact",
+                "retrieve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": 5\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "FACT-RETRIEVE-INVALID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fact/retrieve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fact",
+                "retrieve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": -3\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "FACT-RETRIEVE-MISSING-AUTH",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/fact/retrieve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fact",
+                "retrieve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": 3\n}"
             }
           },
           "response": []
