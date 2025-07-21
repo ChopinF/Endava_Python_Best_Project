@@ -30,7 +30,7 @@ venv/
 # === Test and Coverage ===
 .pytest_cache/
 .coverage
-htmlcov/
+!htmlcov/
 
 # === Build Artifacts ===
 build/
