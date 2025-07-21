@@ -12,6 +12,7 @@ def test_add():
 BASE_URL = "http://localhost:8000"
 HEADERS = {"name": "key"}
 
+# -------------------- /pow --------------------
 
 @pytest.mark.parametrize(
     "a, b, expected",
@@ -70,6 +71,20 @@ def test_pow_complex(a, b, expected):
     assert isinstance(data["cached"], bool)
 
 
+def test_pow_root():
+    response = requests.get(f"{BASE_URL}/pow/")
+    assert response.status_code == 200
+    assert "int" in response.json()
+
+
+def test_pow_delete_cache():
+    response = requests.delete(f"{BASE_URL}/pow/", headers=HEADERS)
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    
+# -------------------- /fibo --------------------
+
+
 @pytest.mark.parametrize(
     "number, expected",
     [
@@ -95,18 +110,31 @@ def test_fibo_retrieve(number, expected):
     assert isinstance(data["cached"], bool)
 
 
-@pytest.mark.parametrize(
-    "number, expected",
-    [
-        (1, 1),
-        (2, 2),
-        (3, 6),
-        (4, 24),
-        (5, 120),
-        (6, 720),
-    ],
-)
+# @pytest.mark.parametrize(
+#     "number, expected",
+#     [
+#         (1, 1),
+#         (2, 2),
+#         (3, 6),
+#         (4, 24),
+#         (5, 120),
+#         (6, 720),
+#     ],
+# )
+def test_fibo_root():
+    response = requests.get(f"{BASE_URL}/fibo/")
+    assert response.status_code == 200
+    assert response.text.strip('"') == "good fibo"
+
+
+def test_fibo_delete_cache():
+    response = requests.delete(f"{BASE_URL}/fibo/", headers=HEADERS)
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+
+# -------------------- /fact --------------------
 def test_fact_retrieve(number, expected):
+    # First call
     response = requests.post(
         f"{BASE_URL}/fact/retrieve", headers=HEADERS, json={"number": number}
     )
@@ -114,3 +142,25 @@ def test_fact_retrieve(number, expected):
     data = response.json()
     assert data["answer"] == expected
     assert data["api_key"] == "key"
+    assert data["cached"] is False
+
+    # Cached call
+    response_cached = requests.post(
+        f"{BASE_URL}/fact/retrieve", headers=HEADERS, json={"number": number}
+    )
+    assert response_cached.status_code == 200
+    data_cached = response_cached.json()
+    assert data_cached["answer"] == expected
+    assert data_cached["cached"] is True
+
+
+def test_fact_root():
+    response = requests.get(f"{BASE_URL}/fact/")
+    assert response.status_code == 200
+    assert response.text.strip('"') == "good fact"
+
+
+def test_fact_delete_cache():
+    response = requests.delete(f"{BASE_URL}/fact/", headers=HEADERS)
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
