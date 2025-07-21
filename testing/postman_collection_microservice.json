@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "FastAPI Math Microservice",
-    "_postman_id": "b8c96d57-9a15-4582-8d22-2906b5f0e1a6",
+    "_postman_id": "645c263d-d67b-45e0-a836-ba54b347b6d4",
     "description": "Postman collection generated for FastAPI factorial, fibo, and pow endpoints.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
@@ -536,6 +536,379 @@
             "body": {
               "mode": "raw",
               "raw": "{\n  \"number\": 3\n}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EXTENDED_FIBO_TESTS",
+      "item": [
+        {
+          "name": "FIBO-ROOT",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fibo/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fibo"
+              ]
+            },
+            "body": null
+          },
+          "response": []
+        },
+        {
+          "name": "FIBO-DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fibo/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fibo"
+              ]
+            },
+            "body": null
+          },
+          "response": []
+        },
+        {
+          "name": "FIBO-POPULATE-01",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fibo/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fibo"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": 6\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "FIBO-RETRIEVE-VALID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fibo/retrieve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fibo",
+                "retrieve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": 6\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "FIBO-RETRIEVE-INVALID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/fibo/retrieve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fibo",
+                "retrieve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": -1\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "FIBO-RETRIEVE-MISSING-AUTH",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/fibo/retrieve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "fibo",
+                "retrieve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": 4\n}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EXTENDED_POW_TESTS",
+      "item": [
+        {
+          "name": "POW-ROOT",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/pow/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pow"
+              ]
+            },
+            "body": null
+          },
+          "response": []
+        },
+        {
+          "name": "POW-DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/pow/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pow"
+              ]
+            },
+            "body": null
+          },
+          "response": []
+        },
+        {
+          "name": "POW-INT",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/pow/int",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pow",
+                "int"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"a\": 2,\n  \"b\": 3\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POW-FLOAT",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/pow/float",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pow",
+                "float"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"a\": 4,\n  \"b\": 0.5\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POW-COMPLEX",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/pow/complex",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pow",
+                "complex"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"a\": \"1+1j\",\n  \"b\": \"2\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POW-INVALID-TYPE",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/pow/invalid",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pow",
+                "invalid"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"a\": 2,\n  \"b\": 3\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POW-BAD-PAYLOAD",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "name",
+                "value": "key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/pow/int",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pow",
+                "int"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"a\": \"a\",\n  \"b\": \"b\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POW-NO-AUTH",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/pow/int",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "pow",
+                "int"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"a\": 2,\n  \"b\": 2\n}"
             }
           },
           "response": []

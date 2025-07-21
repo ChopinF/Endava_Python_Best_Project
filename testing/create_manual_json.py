@@ -140,7 +140,131 @@ test_cases = {
         "input": {"number": 3},
         "expected_output": {"error": "403 Forbidden"}
     }
-    ]
+    ],
+    "extended_fibo_tests": [
+    {
+        "test_id": "FIBO-ROOT",
+        "description": "Root GET returns health message",
+        "method": "GET",
+        "endpoint": "/fibo/",
+        "expected_output": "good fibo"
+    },
+    {
+        "test_id": "FIBO-DELETE",
+        "description": "Delete cache with API key",
+        "method": "DELETE",
+        "endpoint": "/fibo/",
+        "headers": { "name": "key" },
+        "expected_output": {"type": "list"}
+    },
+    {
+        "test_id": "FIBO-POPULATE-01",
+        "description": "Populate up to 6",
+        "method": "POST",
+        "endpoint": "/fibo/",
+        "headers": { "name": "key" },
+        "input": {"number": 6},
+        "expected_output": {"status": "204 or empty"}
+    },
+    {
+        "test_id": "FIBO-RETRIEVE-VALID",
+        "description": "Retrieve Fibonacci of 6 (expected 13)",
+        "method": "POST",
+        "endpoint": "/fibo/retrieve",
+        "headers": { "name": "key" },
+        "input": {"number": 6},
+        "expected_output": {"answer": 13, "cached": False, "api_key": "key"}
+    },
+    {
+        "test_id": "FIBO-RETRIEVE-INVALID",
+        "description": "Retrieve with negative number",
+        "method": "POST",
+        "endpoint": "/fibo/retrieve",
+        "headers": { "name": "key" },
+        "input": {"number": -1},
+        "expected_output": {"error": "422 Unprocessable Entity"}
+    },
+    {
+        "test_id": "FIBO-RETRIEVE-MISSING-AUTH",
+        "description": "Retrieve without API key",
+        "method": "POST",
+        "endpoint": "/fibo/retrieve",
+        "headers": {},
+        "input": {"number": 4},
+        "expected_output": {"error": "403 Forbidden"}
+    }
+],
+    "extended_pow_tests" : [
+    {
+        "test_id": "POW-ROOT",
+        "description": "Check supported operand types",
+        "method": "GET",
+        "endpoint": "/pow/",
+        "expected_output": ["int", "float", "complex"]
+    },
+    {
+        "test_id": "POW-DELETE",
+        "description": "Delete pow cache with API key",
+        "method": "DELETE",
+        "endpoint": "/pow/",
+        "headers": { "name": "key" },
+        "expected_output": {"type": "list"}
+    },
+    {
+        "test_id": "POW-INT",
+        "description": "Exponentiate integers",
+        "method": "POST",
+        "endpoint": "/pow/int",
+        "headers": { "name": "key" },
+        "input": {"a": 2, "b": 3},
+        "expected_output": {"answer": 8, "cached": False, "api_key": "key"}
+    },
+    {
+        "test_id": "POW-FLOAT",
+        "description": "Exponentiate floats",
+        "method": "POST",
+        "endpoint": "/pow/float",
+        "headers": { "name": "key" },
+        "input": {"a": 4, "b": 0.5},
+        "expected_output": {"answer": 2.0, "cached": False, "api_key": "key"}
+    },
+    {
+        "test_id": "POW-COMPLEX",
+        "description": "Exponentiate complex numbers",
+        "method": "POST",
+        "endpoint": "/pow/complex",
+        "headers": { "name": "key" },
+        "input": {"a": "1+1j", "b": "2"},
+        "expected_output": {"answer": "-2j", "cached": False, "api_key": "key"}
+    },
+    {
+        "test_id": "POW-INVALID-TYPE",
+        "description": "Invalid operand type",
+        "method": "POST",
+        "endpoint": "/pow/invalid",
+        "headers": { "name": "key" },
+        "input": {"a": 2, "b": 3},
+        "expected_output": {"error": "400 Unsupported operand type"}
+    },
+    {
+        "test_id": "POW-BAD-PAYLOAD",
+        "description": "Invalid input payload types",
+        "method": "POST",
+        "endpoint": "/pow/int",
+        "headers": { "name": "key" },
+        "input": {"a": "a", "b": "b"},
+        "expected_output": {"error": "422 Unprocessable Entity"}
+    },
+    {
+        "test_id": "POW-NO-AUTH",
+        "description": "No API key provided",
+        "method": "POST",
+        "endpoint": "/pow/int",
+        "headers": {},
+        "input": {"a": 2, "b": 2},
+        "expected_output": {"error": "403 Forbidden"}
+    }
+]
 }
 
 # Write to JSON file
