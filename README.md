@@ -24,7 +24,7 @@
 - [x] caching (putem folosi redis pentru caching in special la fibonacci , sa stocam pana intr-o anumita limita - adica primele 50 de numere de exemplu, si cand primim sa returnam al n-lea numar nu mai calculam ci doar dam retrieve din cache - <https://dev.to/sivakumarmanoharan/caching-in-fastapi-unlocking-high-performance-development-20ej>)
 - [x] authorization (<https://fastapi.tiangolo.com/tutorial/security/> || <https://stackoverflow.com/questions/76504006/i-want-to-verify-the-jwt-token>)
 - [x] logging (loguru / logger-ul din fast api , loguru doar sa fie un utility extern)
-- [ ] make a cli version out of it
-- [ ] make an automated testing program (putem folosi pytest aici)
-- [ ] use postman / advanced-rest-client for manual testing
+- [x] make a cli version out of it
+- [x] make an automated testing program (putem folosi pytest aici)
+- [x] use postman / advanced-rest-client for manual testing
 - [ ] make a frontend application that consumes the api
