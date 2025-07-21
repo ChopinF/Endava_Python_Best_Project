@@ -1,4 +1,3 @@
-"""_summary_"""
 import json
 from pathlib import Path
 
@@ -7,104 +6,271 @@ test_cases = {
     "pow": [
         {
             "test_id": "POW-01",
-            "input": {"base": 2, "exponent": 3},
-            "expected_output": {"operation": "pow", "result": 8.0}
+            "input": {"a": 2, "b": 3},
+            "type": "int",
+            "expected_output": {"result": 8}
         },
         {
             "test_id": "POW-02",
-            "input": {"base": 5, "exponent": 0},
-            "expected_output": {"operation": "pow", "result": 1.0}
+            "input": {"a": 4, "b": 0.5},
+            "type": "float",
+            "expected_output": {"result": 2.0}
         },
         {
             "test_id": "POW-03",
-            "input": {"base": 2, "exponent": -1},
-            "expected_output": {"operation": "pow", "result": 0.5}
+            "input": {"a": "1+1j", "b": "2"},
+            "type": "complex",
+            "expected_output": {"result": "2j"}
         },
         {
             "test_id": "POW-04",
-            "input": {"base": "a", "exponent": "b"},
+            "input": {"a": "a", "b": "b"},
+            "type": "int",
             "expected_output": {"error": "422 Unprocessable Entity"}
-        }
+        },
     ],
-    "fibonacci": [
+    "fibo": [
         {
             "test_id": "FIB-01",
-            "input": {"n": 10},
-            "expected_output": {"operation": "fibonacci", "input": 10, "result": 55}
+            "input": {"number": 6},
+            "expected_output": {"result": 13}
         },
         {
             "test_id": "FIB-02",
-            "input": {"n": 0},
-            "expected_output": {"operation": "fibonacci", "input": 0, "result": 0}
+            "input": {"number": 0},
+            "expected_output": {"result": 1}
         },
         {
             "test_id": "FIB-03",
-            "input": {"n": -1},
+            "input": {"number": -1},
             "expected_output": {"error": "422 Unprocessable Entity"}
-        },
-        {
-            "test_id": "FIB-04",
-            "input": {"n": 25},
-            "expected_output": {"operation": "fibonacci", "input": 25, "result": "cached or computed value"}
         }
     ],
-    "factorial": [
+    "fact": [
         {
             "test_id": "FAC-01",
-            "input": {"n": 5},
-            "expected_output": {"operation": "factorial", "input": 5, "result": 120}
+            "input": {"number": 5},
+            "expected_output": {"result": 120}
         },
         {
             "test_id": "FAC-02",
-            "input": {"n": 0},
-            "expected_output": {"operation": "factorial", "input": 0, "result": 1}
+            "input": {"number": 0},
+            "expected_output": {"result": 1}
         },
         {
             "test_id": "FAC-03",
-            "input": {"n": 100},
-            "expected_output": {"operation": "factorial", "input": 100, "result": "large number"}
+            "input": {"number": 100},
+            "expected_output": {"result": "large number"}
         },
         {
             "test_id": "FAC-04",
-            "input": {"n": -5},
+            "input": {"number": -5},
             "expected_output": {"error": "422 Unprocessable Entity"}
         }
     ],
     "auth": [
         {
             "test_id": "AUTH-01",
-            "description": "Access with valid token",
-            "headers": {"Authorization": "Bearer valid_token"},
-            "endpoint": "/pow",
+            "description": "Access with valid API key",
+            "headers": {"name": "key"},
+            "endpoint": "/pow/int",
             "method": "POST",
-            "input": {"base": 2, "exponent": 2},
-            "expected_output": {"operation": "pow", "result": 4.0}
+            "input": {"a": 2, "b": 2},
+            "expected_output": {"result": 4}
         },
         {
             "test_id": "AUTH-02",
-            "description": "Access without token",
+            "description": "Access without API key",
             "headers": {},
-            "endpoint": "/pow",
+            "endpoint": "/pow/int",
             "method": "POST",
-            "input": {"base": 2, "exponent": 2},
-            "expected_output": {"error": "401 Unauthorized"}
-        },
-        {
-            "test_id": "AUTH-03",
-            "description": "Access with invalid token",
-            "headers": {"Authorization": "Bearer invalid_token"},
-            "endpoint": "/pow",
-            "method": "POST",
-            "input": {"base": 2, "exponent": 2},
-            "expected_output": {"error": "401 Unauthorized"}
+            "input": {"a": 2, "b": 2},
+            "expected_output": {"error": "403 Forbidden"}
         }
-    ]
+    ],
+    "extended_fact_tests": [
+    {
+        "test_id": "FACT-ROOT",
+        "description": "Root GET returns health message",
+        "method": "GET",
+        "endpoint": "/fact/",
+        "expected_output": "good fact"
+    },
+    {
+        "test_id": "FACT-DELETE",
+        "description": "Delete cache with API key",
+        "method": "DELETE",
+        "endpoint": "/fact/",
+        "headers": { "name": "key" },
+        "expected_output": {"type": "list"}
+    },
+    {
+        "test_id": "FACT-POPULATE-01",
+        "description": "Populate up to 5",
+        "method": "POST",
+        "endpoint": "/fact/",
+        "headers": { "name": "key" },
+        "input": {"number": 5},
+        "expected_output": {"status": "204 or empty"}
+    },
+    {
+        "test_id": "FACT-RETRIEVE-VALID",
+        "description": "Retrieve factorial of 5",
+        "method": "POST",
+        "endpoint": "/fact/retrieve",
+        "headers": { "name": "key" },
+        "input": {"number": 5},
+        "expected_output": {"answer": 120, "cached": False, "api_key": "key"}
+    },
+    {
+        "test_id": "FACT-RETRIEVE-INVALID",
+        "description": "Retrieve with negative number",
+        "method": "POST",
+        "endpoint": "/fact/retrieve",
+        "headers": { "name": "key" },
+        "input": {"number": -3},
+        "expected_output": {"error": "422 Unprocessable Entity"}
+    },
+    {
+        "test_id": "FACT-RETRIEVE-MISSING-AUTH",
+        "description": "Retrieve without API key",
+        "method": "POST",
+        "endpoint": "/fact/retrieve",
+        "headers": {},
+        "input": {"number": 3},
+        "expected_output": {"error": "403 Forbidden"}
+    }
+    ],
+    "extended_fibo_tests": [
+    {
+        "test_id": "FIBO-ROOT",
+        "description": "Root GET returns health message",
+        "method": "GET",
+        "endpoint": "/fibo/",
+        "expected_output": "good fibo"
+    },
+    {
+        "test_id": "FIBO-DELETE",
+        "description": "Delete cache with API key",
+        "method": "DELETE",
+        "endpoint": "/fibo/",
+        "headers": { "name": "key" },
+        "expected_output": {"type": "list"}
+    },
+    {
+        "test_id": "FIBO-POPULATE-01",
+        "description": "Populate up to 6",
+        "method": "POST",
+        "endpoint": "/fibo/",
+        "headers": { "name": "key" },
+        "input": {"number": 6},
+        "expected_output": {"status": "204 or empty"}
+    },
+    {
+        "test_id": "FIBO-RETRIEVE-VALID",
+        "description": "Retrieve Fibonacci of 6 (expected 13)",
+        "method": "POST",
+        "endpoint": "/fibo/retrieve",
+        "headers": { "name": "key" },
+        "input": {"number": 6},
+        "expected_output": {"answer": 13, "cached": False, "api_key": "key"}
+    },
+    {
+        "test_id": "FIBO-RETRIEVE-INVALID",
+        "description": "Retrieve with negative number",
+        "method": "POST",
+        "endpoint": "/fibo/retrieve",
+        "headers": { "name": "key" },
+        "input": {"number": -1},
+        "expected_output": {"error": "422 Unprocessable Entity"}
+    },
+    {
+        "test_id": "FIBO-RETRIEVE-MISSING-AUTH",
+        "description": "Retrieve without API key",
+        "method": "POST",
+        "endpoint": "/fibo/retrieve",
+        "headers": {},
+        "input": {"number": 4},
+        "expected_output": {"error": "403 Forbidden"}
+    }
+],
+    "extended_pow_tests" : [
+    {
+        "test_id": "POW-ROOT",
+        "description": "Check supported operand types",
+        "method": "GET",
+        "endpoint": "/pow/",
+        "expected_output": ["int", "float", "complex"]
+    },
+    {
+        "test_id": "POW-DELETE",
+        "description": "Delete pow cache with API key",
+        "method": "DELETE",
+        "endpoint": "/pow/",
+        "headers": { "name": "key" },
+        "expected_output": {"type": "list"}
+    },
+    {
+        "test_id": "POW-INT",
+        "description": "Exponentiate integers",
+        "method": "POST",
+        "endpoint": "/pow/int",
+        "headers": { "name": "key" },
+        "input": {"a": 2, "b": 3},
+        "expected_output": {"answer": 8, "cached": False, "api_key": "key"}
+    },
+    {
+        "test_id": "POW-FLOAT",
+        "description": "Exponentiate floats",
+        "method": "POST",
+        "endpoint": "/pow/float",
+        "headers": { "name": "key" },
+        "input": {"a": 4, "b": 0.5},
+        "expected_output": {"answer": 2.0, "cached": False, "api_key": "key"}
+    },
+    {
+        "test_id": "POW-COMPLEX",
+        "description": "Exponentiate complex numbers",
+        "method": "POST",
+        "endpoint": "/pow/complex",
+        "headers": { "name": "key" },
+        "input": {"a": "1+1j", "b": "2"},
+        "expected_output": {"answer": "-2j", "cached": False, "api_key": "key"}
+    },
+    {
+        "test_id": "POW-INVALID-TYPE",
+        "description": "Invalid operand type",
+        "method": "POST",
+        "endpoint": "/pow/invalid",
+        "headers": { "name": "key" },
+        "input": {"a": 2, "b": 3},
+        "expected_output": {"error": "400 Unsupported operand type"}
+    },
+    {
+        "test_id": "POW-BAD-PAYLOAD",
+        "description": "Invalid input payload types",
+        "method": "POST",
+        "endpoint": "/pow/int",
+        "headers": { "name": "key" },
+        "input": {"a": "a", "b": "b"},
+        "expected_output": {"error": "422 Unprocessable Entity"}
+    },
+    {
+        "test_id": "POW-NO-AUTH",
+        "description": "No API key provided",
+        "method": "POST",
+        "endpoint": "/pow/int",
+        "headers": {},
+        "input": {"a": 2, "b": 2},
+        "expected_output": {"error": "403 Forbidden"}
+    }
+]
 }
 
 # Write to JSON file
-json_output_path = Path("manual_test_cases.json")
-with open(json_output_path, "w") as json_file:
+json_output_path = Path(r"manual_test_cases.json")
+with open(json_output_path, "w", encoding="utf-8") as json_file:
     json.dump(test_cases, json_file, indent=4)
 
-# Provide file name for download
-json_output_path.name
+# Confirm saved
+print(f"Created: {json_output_path}")
