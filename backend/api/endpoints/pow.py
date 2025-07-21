@@ -1,13 +1,13 @@
 # endpoints/pow.py
+from fastapi import Request, Depends
 from typing import Annotated, Union
-from fastapi.params import Depends
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from ..db import get_db, Computation, DeletedItem
 import loguru
-from .util import verify_api_key, redis_client
+from .util import verify_api_key
 
 supported_types = ["int", "float", "complex"]
 
@@ -47,31 +47,27 @@ async def get_supported_types():
 # to empty all the cache
 @router.delete("/")
 async def delete_cache(
+    request: Request,
     api_key=Depends(verify_api_key),
     db: Session = Depends(get_db),  # type: ignore
 ):
     loguru.logger.info("Emptying cache for pow")
-    keys = await redis_client.keys("pow*")
-    deleted = []
-    for key in keys:
-        value = await redis_client.get(key)
-        loguru.logger.info(value)
-        if value:
-            decoded_value = value.decode("utf-8")
-            deleted.append({key: decoded_value})
 
-            db.add(
-                DeletedItem(
-                    key=key.decode("utf-8") if isinstance(key, bytes) else str(key),
-                    value=decoded_value,
-                    operation="pow",
-                    reason="API DELETE",
-                )
+    deleted_items = request.app.state.cache.clear("pow")
+
+    for k, v in deleted_items:
+        loguru.logger.info(f"Deleted from cache: {k} -> {v}")
+        db.add(
+            DeletedItem(
+                key=k,
+                value=v,
+                operation="pow",
+                reason="API DELETE",
             )
-        await redis_client.delete(key)
+        )
 
     db.commit()
-    return deleted
+    return deleted_items
 
 
 # main function
@@ -84,6 +80,7 @@ async def delete_cache(
 async def pow_operation(
     operand_type: str,
     payload: PowRequest,
+    request: Request,
     api_key=Depends(verify_api_key),
     db: Session = Depends(get_db),  # type: ignore
 ):
@@ -92,10 +89,11 @@ async def pow_operation(
         raise HTTPException(status_code=400, detail="Unsupported operand type")
 
     key = f"pow({payload.a},{payload.b})"
-    cached_item = await redis_client.get(key)
+    cache = request.app.state.cache
+    cached_result = cache.get(key)
 
-    if cached_item:
-        result = cached_item.decode("utf-8")
+    if cached_result is not None:
+        result = cached_result
         if operand_type == "int":
             result = int(float(result))
         elif operand_type == "float":
@@ -103,11 +101,10 @@ async def pow_operation(
         elif operand_type == "complex":
             a = complex(payload.a if "j" in str(payload.a) else f"{payload.a}+0j")
             b = complex(payload.b if "j" in str(payload.b) else f"{payload.b}+0j")
-            result = a**b
+            result = a**b  # Re-evaluation not needed if you store complex properly
 
-        loguru.logger.info(
-            f"Retrieved from redis cache some result for pow operation: {result}"
-        )
+        loguru.logger.info(f"Retrieved from in-memory cache: {result}")
+
         db.add(
             Computation(
                 operation="pow",
@@ -118,29 +115,31 @@ async def pow_operation(
             )
         )
         db.commit()
+
         return PowResponse(answer=result, cached=True, api_key=str(api_key))
 
     try:
         if operand_type == "int":
-            result = int(payload.a) ** int(payload.b)  # type: ignore
+            result = int(str(payload.a)) ** int(str(payload.b))
         elif operand_type == "float":
-            result = float(payload.a) ** float(payload.b)  # type: ignore
+            result = float(str(payload.a)) ** float(str(payload.b))
         elif operand_type == "complex":
-            result = complex(payload.a) ** complex(payload.b)  # type: ignore
+            result = complex(payload.a) ** complex(payload.b)
         else:
-            result = -1
+            raise ValueError("Unsupported operand type")
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Computation error: {str(e)}")
 
-    loguru.logger.info(f"Set to redis cache some result for pow operation: {result}")
-    await redis_client.set(key, str(result))  # type: ignore
+    # Store in cache
+    loguru.logger.info(f"Set to in-memory cache: {key} = {result}")
+    cache.set(key, str(result))
 
     db.add(
         Computation(
             operation="pow",
             input=f"{payload.a},{payload.b}",
             result=str(result),
-            cached=True,
+            cached=False,
             api_key=api_key,
         )
     )

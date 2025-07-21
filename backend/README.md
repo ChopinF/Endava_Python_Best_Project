@@ -10,19 +10,19 @@ Windows: \.venv\Scripts\activate
 pip install -r req.txt
 ```
 
-2. Redis installed
-
 ## Inside backend directory
 
 ```python3
 fastapi dev api/main.py
 ```
 
-## Inside redis-cli (simple commands to see stuff)
+## CLI
 
 ```
-get all keys from db - keys *  
-delete all items - flushall
+cd api
+python cli.py factorial --number 5 --api_key key
+python cli.py fibo --number 7 --api_key key
+python cli.py power --a 2 --b 3 --api_key key
 ```
 
 ## Endpoints

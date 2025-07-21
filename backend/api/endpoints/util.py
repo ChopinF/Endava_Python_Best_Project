@@ -1,4 +1,6 @@
 # endpoints/util.py
+
+import re
 from fastapi import HTTPException
 import aioredis
 from fastapi.security.api_key import APIKeyHeader
@@ -15,5 +17,35 @@ async def verify_api_key(api_key: str = Security(api_key_header)):
     return api_key
 
 
-# redis_client = aioredis.Redis(host="localhost", port=6379, db=0)  # on localhost
-redis_client = aioredis.Redis(host="redis", port=6379, db=0)  # for docker container
+def singleton(class_):
+    instances = {}
+
+    def getinstance(*args, **kwargs):
+        if class_ not in instances:
+            instances[class_] = class_(*args, **kwargs)
+        return instances[class_]
+
+    return getinstance
+
+
+@singleton
+class Cache:
+    def __init__(self):
+        self.dict = {}
+
+    def get(self, key: str):
+        return self.dict.get(key)
+
+    def set(self, key: str, v):
+        return self.dict.setdefault(key, v)
+
+    def clear(self, pattern: str):
+        """
+        Removes all keys from the cache that match the regex pattern.
+        Returns a list of (key, value) tuples that were removed.
+        """
+        regex = re.compile(pattern)
+        to_delete = [(k, self.dict[k]) for k in list(self.dict) if regex.search(k)]
+        for k, _ in to_delete:
+            del self.dict[k]
+        return to_delete

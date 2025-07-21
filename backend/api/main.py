@@ -1,4 +1,6 @@
 # main.py
+import loguru
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from .endpoints import pow, fibo, factorial
@@ -6,9 +8,18 @@ from .db import Base, engine
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from .db import get_db, Computation, DeletedItem
+from .endpoints.util import Cache
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    loguru.logger.info("Started lifespan", app)
+    app.state.cache = Cache()
+
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 # routing part
 app.include_router(pow.router)
