@@ -92,34 +92,6 @@
             }
           },
           "response": []
-        },
-        {
-          "name": "POW-04",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "name",
-                "value": "key",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/pow/int",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "pow",
-                "int"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"a\": \"a\",\n  \"b\": \"b\"\n}"
-            }
-          },
-          "response": []
         }
       ]
     },
