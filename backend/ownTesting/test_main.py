@@ -131,8 +131,23 @@ def test_fibo_delete_cache():
     assert isinstance(response.json(), list)
 
 # -------------------- /fact --------------------
+@pytest.mark.parametrize(
+    "number, expected",
+    [
+        (0, 1),
+        (1, 1),
+        (2, 2),
+        (3, 6),
+        (4, 24),
+        (5, 120),
+        (6, 720),
+    ],
+)
 def test_fact_retrieve(number, expected):
-    # First call
+    # Clear cache before testing this number
+    requests.delete(f"{BASE_URL}/fact/", headers=HEADERS, timeout=5)
+
+    # First call (should not be cached)
     response = requests.post(
         f"{BASE_URL}/fact/retrieve", headers=HEADERS, json={"number": number}, timeout=5
     )
@@ -142,7 +157,7 @@ def test_fact_retrieve(number, expected):
     assert data["api_key"] == "key"
     assert data["cached"] is False
 
-    # Cached call
+    # Cached call (should be cached)
     response_cached = requests.post(
         f"{BASE_URL}/fact/retrieve", headers=HEADERS, json={"number": number}, timeout=5
     )
