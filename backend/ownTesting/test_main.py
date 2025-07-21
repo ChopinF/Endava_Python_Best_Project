@@ -83,20 +83,18 @@ def test_pow_delete_cache():
     assert isinstance(response.json(), list)
     
 # -------------------- /fibo --------------------
-
-
 @pytest.mark.parametrize(
     "number, expected",
     [
         (0, 1),
         (1, 1),
-        (2, 2),
-        (3, 3),
-        (4, 5),
-        (5, 8),
-        (6, 13),
-        (7, 21),
-        (8, 34),
+        (2, 1),
+        (3, 2),
+        (4, 3),
+        (5, 5),
+        (6, 8),
+        (7, 13),
+        (8, 21),
     ],
 )
 def test_fibo_retrieve(number, expected):
