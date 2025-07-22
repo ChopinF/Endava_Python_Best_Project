@@ -2,7 +2,6 @@
 
 import re
 from fastapi import HTTPException
-import redis.asyncio as aioredis
 from fastapi.security.api_key import APIKeyHeader
 from fastapi import Security
 
