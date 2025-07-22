@@ -1,0 +1,84 @@
+/* App.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #232526, #414345); /* dark bluish-purple */
+  color: #f0f0f0; /* light text for contrast */
+  min-height: 100vh;
+}
+
+.app-container {
+  text-align: center;
+  padding-top: 8vh;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.nav-button {
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  background-color: #4c5eff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+}
+
+.nav-button:hover {
+  background-color: #3b4bd4;
+}
+
+.form-section {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Textbox (input) style */
+input[type="number"],
+input[type="text"] {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  width: 250px;
+  background-color: #f0f0f0;
+  color: #1e1e1e;
+  outline: none;
+  transition: box-shadow 0.2s ease-in-out;
+  margin: 0 10px;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus {
+  box-shadow: 0 0 6px #4c5eff;
+}
+
+/* Form submit button style */
+form button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  background-color: #4c5eff;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+form button:hover {
+  background-color: #3b4bd4;
+}
