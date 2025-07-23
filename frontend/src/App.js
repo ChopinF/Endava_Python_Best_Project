@@ -1,6 +1,7 @@
 import Factorial from "./components/Factorial";
 import Fibonacci from "./components/Fibonacci";
 import Power from "./components/Power";
+import Db from "./components/Db";
 import React, { useState } from "react";
 import "./App.css";
 
@@ -11,6 +12,7 @@ function App() {
     if (selectedForm === "factorial") return <Factorial />;
     if (selectedForm === "fibonacci") return <Fibonacci />;
     if (selectedForm === "power") return <Power />;
+    if (selectedForm === "db") return <Db />;
     return null;
   };
   return (
@@ -26,6 +28,9 @@ function App() {
         </button>
         <button className="nav-button" onClick={() => setSelectedForm("power")}>
           Power
+        </button>
+        <button className="nav-button" onClick={() => setSelectedForm("db")}>
+          DataBase
         </button>
       </div>
 

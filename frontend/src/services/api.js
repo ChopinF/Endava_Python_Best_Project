@@ -27,3 +27,6 @@ export const populateFactorialCache = (number) =>
 
 export const clearCache = (type) =>
   API.delete(`/${type}`);
+
+export const getDB = () =>
+  API.get("/db")
