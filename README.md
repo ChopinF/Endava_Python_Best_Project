@@ -16,15 +16,13 @@
 - [x] use a database layer (SQLite)
 - [x] make the API endpoints architecture (adica ce metode sa avem , e.g. /pow /fibo_number /factorial etc.. , si cum sa definim requests/response)
 
-## Nice to have - o sa facem obligatoriu =)
+## Nice to have
 
-- [ ] containerization (la final adaugam docker)
 - [x] add API key
-- [ ] monitoring
 - [x] caching (putem folosi redis pentru caching in special la fibonacci , sa stocam pana intr-o anumita limita - adica primele 50 de numere de exemplu, si cand primim sa returnam al n-lea numar nu mai calculam ci doar dam retrieve din cache - <https://dev.to/sivakumarmanoharan/caching-in-fastapi-unlocking-high-performance-development-20ej>)
 - [x] authorization (<https://fastapi.tiangolo.com/tutorial/security/> || <https://stackoverflow.com/questions/76504006/i-want-to-verify-the-jwt-token>)
 - [x] logging (loguru / logger-ul din fast api , loguru doar sa fie un utility extern)
 - [x] make a cli version out of it
 - [x] make an automated testing program (putem folosi pytest aici)
 - [x] use postman / advanced-rest-client for manual testing
-- [ ] make a frontend application that consumes the api
+- [x] make a frontend application that consumes the api
