@@ -19,5 +19,11 @@ export const retrievePower = (type, a, b) =>
 export const getSupportedTypes = () =>
   API.get("/pow/");
 
+export const populateFibonacciCache = (number) =>
+  API.post("/fibo", { number });
+
+export const populateFactorialCache = (number) =>
+  API.post("/fact", { number });
+
 export const clearCache = (type) =>
   API.delete(`/${type}`);
