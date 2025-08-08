@@ -1,3 +1,13 @@
+# Contributors:
+
+1. **Balan-Rares-Ciprian**
+
+2. **Cipleu Iulia Olivia**
+
+3. **Mocan Diana Cristina**
+  
+4. **Lazar Alexandru**
+
 ### Implement a microservice that exposes an API to solve different mathematical operations
 
 - the pow function
